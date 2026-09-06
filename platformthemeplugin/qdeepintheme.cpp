@@ -23,6 +23,7 @@
 #undef private
 #include <private/qwindow_p.h>
 #include <private/qguiapplication_p.h>
+#include <private/qfactoryloader_p.h>
 #include <qpa/qwindowsysteminterface_p.h>
 #include <qpa/qplatformscreen.h>
 #include <qpa/qplatformcursor.h>
@@ -157,7 +158,11 @@ static void updateWindowGeometry(QWindow *w)
         return;
 
     if (w->property(DNOT_UPDATE_WINDOW_GEOMETRY).toBool()) {
-        QWindowSystemInterfacePrivate::GeometryChangeEvent gce(w, QHighDpi::fromNativePixels(w->handle()->geometry(), w)
+        QWindowSystemInterfacePrivate::GeometryChangeEvent gce(w
+                                                   #if QT_VERSION >= QT_VERSION_CHECK(6, 9, 2)
+                                                               , QHighDpi::fromNativeWindowGeometry(w->handle()->geometry(), w)
+                                                   #endif
+                                                               , QHighDpi::fromNativePixels(w->handle()->geometry(), w)
                                                    #if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
                                                                , QRect()
                                                    #endif
