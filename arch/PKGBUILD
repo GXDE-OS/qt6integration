@@ -1,0 +1,40 @@
+# Maintainer: justforlxz <justforlxz@gmail.com>
+pkgname=deepin-qt6integration-git
+pkgver=6.0.35
+pkgrel=1
+pkgdesc='Qt platform theme integration plugins for DDE'
+arch=('x86_64' 'aarch64')
+url="https://github.com/GXDE-OS/qt6integration"
+license=('LGPL-3.0-or-later' 'GPL-3.0-only')
+# dde-qt6xcb-plugin 是运行时硬依赖 / dde-qt6xcb-plugin is a hard runtime dependency.
+depends=('dtk6core-git' 'dtk6gui-git' 'dtk6widget-git' 'deepin-qt6platform-plugins-git'
+         'qt6-base' 'libqtxdg' 'libx11' 'libgcc' 'libstdc++' 'glibc')
+makedepends=('git' 'cmake' 'ninja' 'qt6-tools')
+provides=("deepin-qt6integration=$pkgver")
+conflicts=('deepin-qt6integration')
+groups=('deepin-git')
+source=()
+sha512sums=()
+
+# 直接使用 PKGBUILD 所在的 git 仓库作为源码 ・ Build from the git checkout this PKGBUILD lives in.
+_srcroot() {
+  git -C "$startdir" rev-parse --show-toplevel
+}
+
+build() {
+  # 仓库没有 VERSION 文件，CMake 默认版本是 5.6.12，需要从 pkgver 传入
+  # No VERSION file in this repo and CMake defaults to 5.6.12, pass it from pkgver.
+  version=$(echo "$pkgver" | grep -oE '^[0-9]+(\.[0-9]+){0,3}')
+  cmake -B build -S "$(_srcroot)" -GNinja \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCMAKE_INSTALL_LIBEXECDIR=lib \
+    -DDTK_VERSION="$version" \
+    -DBUILD_TESTING=OFF
+  ninja -C build
+}
+
+package() {
+  DESTDIR="$pkgdir" ninja -C build install
+}
