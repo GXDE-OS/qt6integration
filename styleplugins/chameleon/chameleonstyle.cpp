@@ -4671,7 +4671,13 @@ void ChameleonStyle::polish(QWidget *w)
         view->setItemDelegate(new QStyledItemDelegate);
     }
 
-    if (DApplication::isDXcbPlatform() || (qApp->platformName() == "dwayland" || qApp->property("_d_isDwayland").toBool())) {
+    const bool isTreeland = qApp->platformName() == "wayland"
+            && DWindowManagerHelper::instance()->hasBlurWindow()
+            && DWindowManagerHelper::instance()->hasNoTitlebar();
+    if (DApplication::isDXcbPlatform()
+            || qApp->platformName() == "dwayland"
+            || qApp->property("_d_isDwayland").toBool()
+            || isTreeland) {
         bool is_menu = qobject_cast<QMenu *>(w);
         bool is_tip = w->inherits("QTipLabel");
 
@@ -4691,7 +4697,7 @@ void ChameleonStyle::polish(QWidget *w)
         if (is_menu && w->isWindow()) {
             DPlatformWindowHandle handle(w);
 
-            if (DPlatformWindowHandle::isEnabledDXcb(w)) {
+            if (DPlatformWindowHandle::isEnabledDXcb(w) || isTreeland) {
                 handle.setEnableBlurWindow(true);
 
                 DPlatformTheme *theme = DGuiApplicationHelper::instance()->applicationTheme();
