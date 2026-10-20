@@ -1,3 +1,9 @@
+qt6integration (6.0.35-gxde2) unstable; urgency=medium
+
+  * Patched for Qt6 menu blur.
+
+ -- CharOfString <root@charofstring.cc>  Tue, 20 Oct 2026 15:28:11 -0500
+
 qt6integration (6.0.35) unstable; urgency=medium
 
   * Build against both Qt 6.8 and Qt 6.10.

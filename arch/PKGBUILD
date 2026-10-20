@@ -1,7 +1,7 @@
 # Maintainer: justforlxz <justforlxz@gmail.com>
 pkgname=deepin-qt6integration-git
 pkgver=6.0.35
-pkgrel=1
+pkgrel=2
 pkgdesc='Qt platform theme integration plugins for DDE'
 arch=('x86_64' 'aarch64')
 url="https://github.com/GXDE-OS/qt6integration"
