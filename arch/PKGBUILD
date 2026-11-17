@@ -1,5 +1,5 @@
 # Maintainer: justforlxz <justforlxz@gmail.com>
-pkgname=deepin-qt6integration-git
+pkgname=gxde-deepin-qt6integration
 pkgver=6.0.35
 pkgrel=2
 pkgdesc='Qt platform theme integration plugins for DDE'
@@ -7,11 +7,12 @@ arch=('x86_64' 'aarch64')
 url="https://github.com/GXDE-OS/qt6integration"
 license=('LGPL-3.0-or-later' 'GPL-3.0-only')
 # dde-qt6xcb-plugin 是运行时硬依赖 / dde-qt6xcb-plugin is a hard runtime dependency.
-depends=('dtk6core-git' 'dtk6gui-git' 'dtk6widget-git' 'deepin-qt6platform-plugins-git'
+depends=('gxde-dtk6core' 'gxde-dtk6gui' 'gxde-dtk6widget' 'gxde-deepin-qt6platform-plugins'
          'qt6-base' 'libqtxdg' 'libx11' 'libgcc' 'libstdc++' 'glibc')
 makedepends=('git' 'cmake' 'ninja' 'qt6-tools')
-provides=("deepin-qt6integration=$pkgver")
-conflicts=('deepin-qt6integration')
+provides=("deepin-qt6integration=$pkgver" "deepin-qt6integration-git=$pkgver")
+conflicts=('deepin-qt6integration' 'deepin-qt6integration-git')
+replaces=('deepin-qt6integration-git')
 groups=('deepin-git')
 source=()
 sha512sums=()
